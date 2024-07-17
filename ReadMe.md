@@ -1,12 +1,12 @@
 # File Verification Tool
 
-This repository contains tools to verify the integrity of game files. It includes a PowerShell script, an executable, and a Python script to generate the necessary file sizes list.
+This repository contains tools to verify the integrity of game files. It includes a PowerShell script, an executable, and a Python script to generate the necessary file sizes and MD5 checksums list.
 
 ## Files
 
-- `verify_files.ps1`: PowerShell script that verifies file sizes.
+- `verify_files.ps1`: PowerShell script that verifies file sizes and MD5 checksums.
 - `verify_files.exe`: Executable version of the PowerShell script.
-- `file_sizes.txt`: List of files and their expected sizes.
+- `file_sizes.txt`: List of files with their expected sizes and MD5 checksums.
 - `generate_file_sizes.py`: Python script to generate `file_sizes.txt`.
 - `custom_icon.ico`: Custom icon for the executable.
 
@@ -28,7 +28,10 @@ This repository contains tools to verify the integrity of game files. It include
 
 2. **Run the Executable**:
    - Double-click `verify_files.exe` to run the file verification process.
-   - The tool will check the sizes of the files listed in `file_sizes.txt` and prompt you if any discrepancies are found.
+   - The tool will prompt you to choose the verification method:
+     - **1** for File Size only (fast)
+     - **2** for File Size and MD5 (more accurate but slower)
+   - The tool will then check the files based on your selection and provide progress updates.
 
 ### Generating `file_sizes.txt`
 
@@ -96,9 +99,9 @@ If you need to make changes to the verification logic, you can modify `verify_fi
 
 ## Notes
 
-- The `file_sizes.txt` should contain the list of files and their expected sizes in the following format:
-- relative/path/to/file1 expected_size1
-- relative/path/to/file2 expected_size2
+- The `file_sizes.txt` should contain the list of files, their expected sizes, and MD5 checksums in the following format:
+- relative/path/to/file1 expected_size1 md5_checksum1
+- relative/path/to/file2 expected_size2 md5_checksum2
 
 ## License
 

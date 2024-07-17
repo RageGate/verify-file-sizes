@@ -1,4 +1,5 @@
 import os
+import hashlib
 
 # Define the paths to the directories to be scanned
 game_folder = os.path.abspath(".")
@@ -9,8 +10,13 @@ size_file_path = os.path.join(game_folder, "file_sizes.txt")
 # List of directories to scan
 directories_to_scan = [data_dir, enGB_dir]
 
-print(f"Scanning directories: {directories_to_scan}")
-print(f"Output file: {size_file_path}")
+# Function to compute MD5 checksum
+def compute_md5(file_path):
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
 
 # Open the size file for writing
 with open(size_file_path, 'w') as size_file:
@@ -26,10 +32,12 @@ with open(size_file_path, 'w') as size_file:
                     relative_path = os.path.relpath(file_path, game_folder)
                     # Get the size of the file
                     file_size = os.path.getsize(file_path)
-                    # Write the relative path and size to the size file
-                    size_file.write(f"{relative_path} {file_size}\n")
-                    print(f"Added file: {relative_path} with size: {file_size}")
+                    # Get the MD5 checksum of the file
+                    file_md5 = compute_md5(file_path)
+                    # Write the relative path, size, and MD5 checksum to the size file
+                    size_file.write(f"{relative_path} {file_size} {file_md5}\n")
+                    print(f"Added file: {relative_path} with size: {file_size} and MD5: {file_md5}")
         else:
             print(f"Directory does not exist: {directory}")
 
-print(f"File sizes have been written to {size_file_path}")
+print(f"File sizes and checksums have been written to {size_file_path}")
