@@ -8,7 +8,7 @@ enGB_dir = os.path.join(data_dir, "enGB")
 size_file_path = os.path.join(game_folder, "file_sizes.txt")
 
 # List of directories to scan
-directories_to_scan = [data_dir, enGB_dir]
+directories_to_scan = [game_folder, data_dir, enGB_dir]
 
 # Function to compute MD5 checksum
 def compute_md5(file_path):
