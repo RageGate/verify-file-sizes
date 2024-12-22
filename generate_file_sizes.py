@@ -10,6 +10,9 @@ size_file_path = os.path.join(game_folder, "file_sizes.txt")
 # List of directories to scan
 directories_to_scan = [game_folder, data_dir, enGB_dir]
 
+# List of directories to exclude
+excluded_directories = {"WTF", "Cache", "Logs", "Interface"}
+
 # Function to compute MD5 checksum
 def compute_md5(file_path):
     hash_md5 = hashlib.md5()
@@ -25,7 +28,9 @@ with open(size_file_path, 'w') as size_file:
         if os.path.exists(directory):
             print(f"Scanning directory: {directory}")
             # Walk through the directory
-            for root, _, files in os.walk(directory):
+            for root, dirs, files in os.walk(directory):
+                # Modify the dirs list in-place to exclude unwanted directories
+                dirs[:] = [d for d in dirs if d not in excluded_directories]
                 for file in files:
                     file_path = os.path.join(root, file)
                     # Get the relative path to the game folder
